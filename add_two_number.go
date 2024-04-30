@@ -10,7 +10,7 @@ type ListNode struct {
 // 需要注意点地方
 // 1）循环的终止条件和两个指针的维护
 // 2）两个链表各位相加之后可能存在进位
-func TwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+func AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	var carry int
 	var result *ListNode
 	var current *ListNode
@@ -73,4 +73,58 @@ func nextNode(node *ListNode) *ListNode {
 	}
 
 	return nil
+}
+
+// bitSumMatric .
+// bitSumMatric[0][1] -> [2]int{result, carry}
+var bitSumMatric = [2][2][2][2]int{
+	{
+		[2][2]int{
+			{0, 0},
+			{1, 0},
+		},
+		[2][2]int{
+			{1, 0},
+			{0, 1},
+		},
+	},
+	{
+		[2][2]int{
+			{1, 0},
+			{0, 1},
+		},
+		[2][2]int{
+			{0, 1},
+			{1, 1},
+		},
+	},
+}
+
+func AddTowNumBitOp(aa, bb int) int {
+	var result int
+	var shift int
+	var carry int
+	var a, b uint64
+	a = uint64(aa)
+	b = uint64(bb)
+
+	for a > 0 || b > 0 {
+		aBit := a & 1
+		bBit := b & 1
+
+		bitSumCache := bitSumMatric[aBit][bBit][carry]
+		bit := bitSumCache[0]
+		carry = bitSumCache[1]
+		result = result | (bit << shift)
+
+		shift += 1
+		a = a >> 1
+		b = b >> 1
+	}
+
+	if carry > 0 {
+		result = result | (carry << shift)
+	}
+
+	return result
 }
