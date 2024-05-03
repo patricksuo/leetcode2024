@@ -48,3 +48,50 @@ func MaxErasureValue(nums []int) int {
 
 	return resultForSubsetX[len(resultForSubsetX)-1]
 }
+
+func MaxErasureValueTwoPointer(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+
+	if len(nums) == 0 {
+		return nums[0]
+	}
+
+	left, right := 0, 1
+	resultForSubsetX := make([]int, len(nums))
+	resultIncludeX := make([]int, len(nums))
+	set := make(map[int]struct{})
+
+	resultForSubsetX[0] = nums[0]
+	resultIncludeX[0] = nums[0]
+	set[nums[0]] = struct{}{}
+
+	for right < len(nums) {
+		rnum := nums[right]
+		_, dup := set[rnum]
+		if !dup {
+			set[rnum] = struct{}{}
+			resultIncludeX[right] = resultIncludeX[right-1] + rnum
+		} else {
+			var popSum int
+			for left < right {
+				lnum := nums[left]
+				popSum += lnum
+				delete(set, lnum)
+				left += 1
+				if lnum == rnum {
+					break
+				}
+			}
+			set[rnum] = struct{}{}
+			resultIncludeX[right] = resultIncludeX[right-1] + rnum - popSum
+		}
+
+		resultForSubsetX[right] = max(resultForSubsetX[right-1], resultIncludeX[right])
+
+		right += 1
+	}
+
+	return resultForSubsetX[len(nums)-1]
+}
