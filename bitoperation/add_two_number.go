@@ -1,4 +1,4 @@
-package leetcode2024
+package bitoperation
 
 type ListNode struct {
 	Val  int
