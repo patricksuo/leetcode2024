@@ -35,3 +35,18 @@ func MinimumCardPickup(cards []int) int {
 
 	return result
 }
+
+func MinimumCardPickupHashMap(cards []int) int {
+	val2idx := make(map[int]int)
+	result := -1
+	for i, v := range cards {
+		otherIdx, ok := val2idx[v]
+		if ok && (result == -1 || i-otherIdx+1 < result) {
+			result = i - otherIdx + 1
+		}
+
+		val2idx[v] = i
+	}
+
+	return result
+}
