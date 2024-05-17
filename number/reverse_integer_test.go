@@ -1,4 +1,4 @@
-package bitoperation
+package number
 
 import (
 	"testing"

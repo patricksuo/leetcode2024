@@ -1,4 +1,4 @@
-package bitoperation
+package number
 
 import "math"
 
@@ -7,10 +7,6 @@ import "math"
 // If reversing x causes the value to go outside the signed 32-bit integer range [-2^31, 2^31 - 1],
 // then return 0.
 func ReverseIntegerx(xx int) int {
-	/*
-
-	 */
-
 	x := int32(xx)
 	var (
 		result   int32
@@ -73,5 +69,9 @@ func AddOverflow32(x, y int32) bool {
 // MulOverflow32 判断是否溢出
 // 有更多边界需要处理
 func MulOverflow32(x, y int32) bool {
+	if x == 0 || y == 0 {
+		return false
+	}
+
 	return x*y/y != x
 }
